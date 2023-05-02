@@ -59,3 +59,14 @@
 .keyboard__key--active::after {
     background: #08ff00;
 }
+
+
+.textarea {
+  display: block;
+  width: 700px;
+  height: 200px;
+  margin: 10px auto 10px;
+  padding: 10px;
+  font-size: 18px;
+  color: #444444
+}
