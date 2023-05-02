@@ -77,6 +77,97 @@ const Keyboard = {
           });
 
           break;
+          
+        case "Tab":
+          keyElement.classList.add("keyboard__key--wide");
+          keyElement.textContent = key;
+
+          keyElement.addEventListener("click", () => {
+            this.properties.value += "\t";
+            this._triggerEvent("input");
+          });
+
+          break;
+
+        case "ShiftL":
+          // function for key "ShiftL"
+          keyElement.textContent = key;
+          keyElement.addEventListener("click", () => {
+            this._triggerEvent("input");
+          });
+          break;
+
+        case "ShiftR":
+          // function for key "ShiftR"
+          keyElement.textContent = key;
+          keyElement.addEventListener("click", () => {
+            this._triggerEvent("input");
+          });
+          break;
+
+        case "DEL":
+          // function for key "DEL"
+          keyElement.textContent = key;
+          keyElement.addEventListener("click", () => {
+            this._triggerEvent("input");
+          });
+          break;
+
+        case "Ctrl":
+          // function for key "Ctrl"
+          keyElement.textContent = key;
+          keyElement.addEventListener("click", () => {
+            this._triggerEvent("input");
+          });
+          break;
+
+        case "Win":
+          // function for key "Win"
+          keyElement.textContent = key;
+          keyElement.addEventListener("click", () => {
+            this._triggerEvent("input");
+          });
+          break;
+
+        case "Alt":
+          // function for key "Alt"
+          keyElement.textContent = key;
+          keyElement.addEventListener("click", () => {
+            this._triggerEvent("input");
+          });
+          break;
+
+        case "Left":
+          // function for key "Left"
+          keyElement.textContent = key;
+          keyElement.addEventListener("click", () => {
+            this._triggerEvent("input");
+          });
+          break;
+
+        case "Right":
+          // function for key "Right"
+          keyElement.textContent = key;
+          keyElement.addEventListener("click", () => {
+            this._triggerEvent("input");
+          });
+          break;
+
+        case "Up":
+          // function for key "Up"
+          keyElement.textContent = key;
+          keyElement.addEventListener("click", () => {
+            this._triggerEvent("input");
+          });
+          break;
+
+        case "Down":
+          // function for key "Down"
+          keyElement.textContent = key;
+          keyElement.addEventListener("click", () => {
+            this._triggerEvent("input");
+          });
+          break;
 
         case "Caps":
           keyElement.classList.add("keyboard__key--wide", "keyboard__key--activatable");
