@@ -60,6 +60,9 @@
     background: #08ff00;
 }
 
+.keyboard__key--dark {
+    background: #2b332b;
+}
 
 .textarea {
   margin: 0 0;
