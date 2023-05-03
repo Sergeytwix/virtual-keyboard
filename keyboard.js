@@ -3,7 +3,7 @@ let textarea = document.createElement('textarea');
 textarea.className = "textarea use-keyboard-input";
 textarea.setAttribute("onblur", "this.focus()");
 document.body.append(textarea);
-document.querySelector('textarea').focus()
+document.querySelector('textarea').focus();
 
 
 //Create keyboard
@@ -47,24 +47,35 @@ const Keyboard = {
       });
     });
 
+
+    // IF KEY DOWN
     document.addEventListener('keydown', function(event) {
 
-      // change language
-      if (((event.shiftKey || event.ctrlKey) && event.altKey) || (event.shiftKey && event.ctrlKey) ) {
-        let element = document.querySelector(".keyboard__keys");
-          while (element.firstChild) {
-            element.removeChild(element.firstChild);
+      if (((event.shiftKey || event.ctrlKey) && event.altKey) || (event.shiftKey && event.ctrlKey) ) { // change language
+        let keys = document.querySelector(".keyboard__keys");
+          while (keys.firstChild) {
+            keys.removeChild(keys.firstChild);
           }
         Keyboard.properties.language = !Keyboard.properties.language;
         Keyboard.elements.keysContainer.appendChild(Keyboard._createKeys());
         Keyboard.elements.keys = Keyboard.elements.keysContainer.querySelectorAll(".keyboard__key");
-      }
-
-      // key caps on keyboard
-      if ((event.code === "CapsLock") ) {
+      } else if ((event.code === "CapsLock") ) { // caps lock
+        element = document.getElementById('caps');
+        element.classList.toggle("keyboard__key--active", Keyboard.properties.capsLock);
         Keyboard._toggleCapsLock();
+      } else {
+        element.classList.add("keyboard__key--actived");
       }
     });
+    
+    // IF KEY UP
+    document.addEventListener('keyup', function(event) {
+      element = document.getElementById(event.key.toLowerCase());
+      if(event.code != "CapsLock") {
+        element.classList.remove("keyboard__key--actived");
+      }
+    });
+    
   },
 
   _createKeys() {
@@ -98,7 +109,7 @@ const Keyboard = {
 
       // Add attributes/classes
       keyElement.setAttribute("type", "button");
-      keyElement.setAttribute("id", key.toUpperCase());
+      keyElement.setAttribute("id", key.toLowerCase());
       keyElement.classList.add("keyboard__key");
 
       // Defining functions for keys
@@ -295,7 +306,6 @@ const Keyboard = {
 
     for (const key of this.elements.keys) {
       if (key.className === "keyboard__key") {
-        //this.properties.capsLock ? key.setAttribute("data", key.textContent.toUpperCase()) : key.setAttribute("data", key.textContent.toLowerCase());
         key.textContent = this.properties.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
       }
     }
