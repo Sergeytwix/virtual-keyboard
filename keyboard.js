@@ -1,6 +1,7 @@
 // Create tablearea for text
 let textarea = document.createElement('textarea');
 textarea.className = "textarea use-keyboard-input";
+textarea.setAttribute("onblur", "this.focus()");
 document.body.append(textarea);
 document.querySelector('textarea').focus()
 
@@ -10,11 +11,7 @@ const Keyboard = {
   elements: {
     main: null,
     keysContainer: null,
-    keys: [],
-    functionalKeys: [
-      "Backspace", "Tab", "DEL", "Caps", "ENTER", "ShiftL", "Up", "ShiftR", "Ctrl", 
-      "Win", "Alt", "Space", "Alt", "Ctrl", "Left", "Down", "Right"
-    ]
+    keys: []
   },
 
   eventHandlers: {
@@ -73,6 +70,7 @@ const Keyboard = {
   _createKeys() {
     const fragment = document.createDocumentFragment();
 
+    // Eng layout
     const keyLayoutEN = [
       "`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "Backspace",
       "Tab", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\", "DEL",
@@ -80,7 +78,8 @@ const Keyboard = {
       "ShiftL", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "Up", "ShiftR",
       "Ctrl", "Win", "Alt", "Space", "Alt", "Ctrl", "Left", "Down", "Right"
     ];
-    console.log(keyLayoutEN.length);
+
+    // Rus layout
     const keyLayoutRU = [
       "`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "Backspace",
       "Tab", "й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "х", "ъ", "\\", "DEL",
@@ -89,6 +88,8 @@ const Keyboard = {
       "Ctrl", "Win", "Alt", "Space", "Alt", "Ctrl", "Left", "Down", "Right"
     ];
 
+
+    // Language selection
     !this.properties.language ? keyLayout = keyLayoutEN : keyLayout = keyLayoutRU;
 
     keyLayout.forEach(key => {
@@ -97,7 +98,7 @@ const Keyboard = {
 
       // Add attributes/classes
       keyElement.setAttribute("type", "button");
-      keyElement.setAttribute("data", key);
+      keyElement.setAttribute("id", key.toUpperCase());
       keyElement.classList.add("keyboard__key");
 
       // Defining functions for keys
@@ -112,6 +113,15 @@ const Keyboard = {
             this._triggerEvent("input");
           });
 
+          break;
+
+        case "`":
+          keyElement.textContent = key;
+          keyElement.classList.add("keyboard__key--dark");
+          keyElement.addEventListener("click", () => {
+            this.properties.value += this.properties.capsLock ? key.toUpperCase() : key.toLowerCase();
+            this._triggerEvent("input");
+          });
           break;
           
         case "Tab":
@@ -130,6 +140,9 @@ const Keyboard = {
           // function for key "ShiftL"
           keyElement.textContent = key;
           keyElement.addEventListener("click", () => {
+            this._toggleCapsLock();
+            keyElement.classList.toggle("keyboard__key--actived");
+            keyElement.classList.toggle("keyboard__key--dark");
             this._triggerEvent("input");
           });
           break;
@@ -261,6 +274,7 @@ const Keyboard = {
 
       fragment.appendChild(keyElement);
 
+      // Line break for keyboard
       if (insertLineBreak) {
         fragment.appendChild(document.createElement("br"));
       }
@@ -281,12 +295,7 @@ const Keyboard = {
 
     for (const key of this.elements.keys) {
       if (key.className === "keyboard__key") {
-
-        console.log("ANSWER: " + key + " : " + ([
-          "Backspace", "Tab", "DEL", "Caps", "ENTER", "ShiftL", "Up", "ShiftR", "Ctrl", 
-          "Win", "Alt", "Space", "Alt", "Ctrl", "Left", "Down", "Right"
-        ].indexOf(key) !== -1));
-        this.properties.capsLock ? key.setAttribute("data", key.textContent.toUpperCase()) : key.setAttribute("data", key.textContent.toLowerCase());
+        //this.properties.capsLock ? key.setAttribute("data", key.textContent.toUpperCase()) : key.setAttribute("data", key.textContent.toLowerCase());
         key.textContent = this.properties.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
       }
     }
