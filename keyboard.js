@@ -51,7 +51,7 @@ const Keyboard = {
     // IF KEY DOWN
     document.addEventListener('keydown', function(event) {
 
-      if (((event.shiftKey || event.ctrlKey) && event.altKey) || (event.shiftKey && event.ctrlKey) ) { // change language
+      if (((event.shiftKey || event.ctrlKey) && event.altKey) || (event.shiftKey && event.ctrlKey) ) {
         let keys = document.querySelector(".keyboard__keys");
           while (keys.firstChild) {
             keys.removeChild(keys.firstChild);
@@ -59,19 +59,46 @@ const Keyboard = {
         Keyboard.properties.language = !Keyboard.properties.language;
         Keyboard.elements.keysContainer.appendChild(Keyboard._createKeys());
         Keyboard.elements.keys = Keyboard.elements.keysContainer.querySelectorAll(".keyboard__key");
-      } else if ((event.code === "CapsLock") ) { // caps lock
+      } else if ((event.code === "CapsLock") ) { 
         element = document.getElementById('caps');
-        element.classList.toggle("keyboard__key--active", Keyboard.properties.capsLock);
+        element.classList.toggle("keyboard__key--active");
+        element.classList.toggle(Keyboard.properties.capsLock);
         Keyboard._toggleCapsLock();
-      } else {
+      } else if (event.code === "ShiftLeft") {
+        element = document.getElementById('shiftl');
+        element.classList.remove("keyboard__key--dark");
         element.classList.add("keyboard__key--actived");
+
+        Keyboard.properties.capsLock = true;
+        for (const key of Keyboard.elements.keys) {
+          if (key.className === "keyboard__key") {
+            key.textContent = Keyboard.properties.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
+          }
+        }
+      } else {
+      //console.log(event.code + " : " +  event.key);
+      //console.log(element);
+      element = document.getElementById(event.key.toLowerCase());
+      element.classList.add("keyboard__key--actived");
       }
     });
     
     // IF KEY UP
     document.addEventListener('keyup', function(event) {
-      element = document.getElementById(event.key.toLowerCase());
-      if(event.code != "CapsLock") {
+      if(event.code === "CapsLock") {
+      } else if (event.code === "ShiftLeft") {
+        element = document.getElementById('shiftl');
+        element.classList.add("keyboard__key--dark");
+        element.classList.remove("keyboard__key--actived");
+        Keyboard.properties.capsLock = false;
+        for (const key of Keyboard.elements.keys) {
+          if (key.className === "keyboard__key") {
+            key.textContent = Keyboard.properties.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
+          }
+        }
+      } else {
+        Keyboard.properties.value += event.key;
+        element = document.getElementById(event.key.toLowerCase());
         element.classList.remove("keyboard__key--actived");
       }
     });
